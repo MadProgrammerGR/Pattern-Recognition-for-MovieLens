@@ -1,4 +1,4 @@
-function [bel,repre]=BSAS(X,theta,q,order)
+function [bel,repre]=MBSAS(X,theta,q,order)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FUNCTION
@@ -40,6 +40,7 @@ n_clust=1;  % no. of clusters
 bel=zeros(1,N);
 bel(order(1))=n_clust;
 repre=X(:,order(1));
+clusters_sizes=1; % posa dianysmata exei h ka8e klash
 for i=2:N
    [m1,m2]=size(repre);
 % Determining the closest cluster representative}}
@@ -49,10 +50,17 @@ for i=2:N
        n_clust=n_clust+1;
        bel(order(i))=n_clust;
        repre=[repre X(:,order(i))];
-   else
-
-% Pattern classification phase(*4)}}
-       bel(order(i))=s2;
-       repre(:,s2)=((sum(bel==s2)-1)*repre(:,s2) + X(:,order(i)))/sum(bel==s2);
+       clusters_sizes=[clusters_sizes 1]; % h kainourgia klash exei mono 1, ton antiproswpo
    end
+end
+
+for i=1:N
+  if bel(order(i))==0
+    [m1,m2]=size(repre);
+    [s1,s2]=min(sqrt(sum((repre-X(:,order(i))*ones(1,m2)).^2))); %euklideia
+    bel(order(i))=s2;
+    clusters_sizes(s2)=clusters_sizes(s2)+1; % topo8eth8hke sthn klash s2
+    % twra isxyei oti: sum(bel==value) == clusters_sizes(value)
+    repre(:,s2)=((clusters_sizes(s2)-1)*repre(:,s2) + X(:,order(i)))/clusters_sizes(s2);
+  end
 end

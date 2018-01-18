@@ -1,4 +1,4 @@
-function [bel,repre]=BSAS(X,theta,q,order)
+function [bel,repre]=BSAS2(X,theta,q,order)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FUNCTION
@@ -40,19 +40,23 @@ n_clust=1;  % no. of clusters
 bel=zeros(1,N);
 bel(order(1))=n_clust;
 repre=X(:,order(1));
+clusters_sizes=1; % posa dianysmata exei h ka8e klash
 for i=2:N
    [m1,m2]=size(repre);
 % Determining the closest cluster representative}}
+%   [s1,s2]=min(sum((repre-X(:,order(i))*ones(1,m2)).^2)); %euklideia
    [s1,s2]=min(sqrt(sum((repre-X(:,order(i))*ones(1,m2)).^2))); %euklideia
 %   [s1,s2]=min(sum(abs(repre-X(:,order(i))*ones(1,m2)))); %manhattan
    if(s1>theta) && (n_clust<q)
        n_clust=n_clust+1;
        bel(order(i))=n_clust;
        repre=[repre X(:,order(i))];
+       clusters_sizes=[clusters_sizes 1];
    else
 
 % Pattern classification phase(*4)}}
        bel(order(i))=s2;
-       repre(:,s2)=((sum(bel==s2)-1)*repre(:,s2) + X(:,order(i)))/sum(bel==s2);
+       clusters_sizes(s2)=clusters_sizes(s2)+1;
+       repre(:,s2)=((clusters_sizes(s2)-1)*repre(:,s2) + X(:,order(i)))/clusters_sizes(s2);
    end
 end
