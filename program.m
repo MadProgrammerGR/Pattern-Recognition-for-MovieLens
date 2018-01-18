@@ -94,7 +94,7 @@ for theta = theta_range
     list_m = zeros(1, q); % poses fores emfanisthke to ka8e plh8os klasewn
     for stat = 1:n_times
         order = randperm(N); % tyxaia seira eisodwn twn dianysmatwn
-        [~, repre] = BSAS2(X,theta,q,order);
+        [~, repre] = BSAS(X,theta,q,order);
         k = size(repre,2); % plh8os twn klasewn poy proekypsan
         list_m(k) = list_m(k)+1;
     endfor
