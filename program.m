@@ -55,3 +55,5 @@ theta_best = 7.20
 repre, km_repre
 printf("BSAS cluster size: %d %d\n", sum(bel==1), sum(bel==2))
 printf("k-means cluster size: %d %d\n", sum(km_bel==1), sum(km_bel==2))
+
+%myParallelCoords(X(:,1:100)',km_bel(1:100),headers(2:end));
