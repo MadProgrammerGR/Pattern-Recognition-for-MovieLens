@@ -45,3 +45,31 @@ plot(theta_range, m_total, '-o');
 title("Number of clusters for each value of Theta");
 xlabel("Distance threshold (Theta)");
 ylabel("Number of clusters");
+
+% vriskoume to kltr theta me vasi ta apotelesmata tou bsas
+m_best=0;
+theta_best=0;
+siz=0;
+for i=1:length(m_total)
+    if(m_total(i)~=1)
+        t=m_total-m_total(i);
+        siz_temp=sum(t==0);
+        if(siz<siz_temp)
+            siz=siz_temp;
+            theta_best=sum(theta_range.*(t==0))/sum(t==0);
+            m_best=m_total(i);
+        end
+    end
+end
+if(sum(m_total==m_best)<.1*n_theta)
+    m_best=1;
+    theta_best=sum(theta_range.*(m_total==1))/sum(m_total==1);
+end
+
+% vriskoume ta kentroidi tou bsas me to theta_best
+[bel, repre] = BSAS(X, theta_best, q, randperm(N));
+% ektelesi tou kmeans
+[km_repre, km_bel, J] = k_means(X, repre );
+repre, km_repre
+printf("BSAS cluster size: %d %d\n", sum(bel==1), sum(bel==2))
+printf("k-means cluster size: %d %d\n", sum(km_bel==1), sum(km_bel==2))
