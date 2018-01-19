@@ -3,20 +3,8 @@ savepath();
 close('all');
 clear;
 
-% dhmiourgia tou pinaka dianysmatwn xarakthristikwn apo to tropopoihmeno dataset
-data = importdata("rating_scores_data.csv", ",", 1);
-headers = data.colheaders;
-data = data.data;
-User_ID = data(:,1)';
-%xwris th prwth sthlh alla kai anastrofo wste ka8e sthlh na apotelei ena dianysma xarakthristikwn
-X = data(:,2:end)';
-clear data;
+[headers,User_ID,X] = readData();
 [l,N] = size(X);
-% eleipes times, dld otan o xrhsths den exei va8mologhsei kamia tainia me to sygkekrimeno genre
-for i = 1:l
-  X(i,isnan(X(i,:))) = nanmean(X(i,:));
-end
-
 % vriskoume tis min/max apostaseis meta3y twn dianysmatwn tou X
 mind = Inf;
 maxd = 0;
@@ -32,19 +20,19 @@ for i = 1:N
 endfor
 
 % ypologismos eurous tou katwfliou apostashs theta
-n_theta = 40;
+n_theta = 60;
 theta_min = mind + (maxd-mind)/4;
 theta_max = maxd - (maxd-mind)/4; % euros pera autou de parexei arketh plhroforia
 theta_range = linspace(theta_min, theta_max, n_theta);
 
 % efarmozoume n_times fores ton BSAS gia ka8e timh tou theta
-n_times = 5;
+n_times = 7;
 q = N; % orizoume ws anwfli plh8ous klasewn enan mh perioristiko ari8mo
 m_total = []; % plh8os klasewn pou proekypse apo ka8e timh tou theta
 for theta = theta_range
     list_m = zeros(1, q); % poses fores emfanisthke to ka8e plh8os klasewn
     for stat = 1:n_times
-        order = randperm(N); % tyxaia seira eisodou twn dianysmatwn
+        order = randperm(N); % tyxaia seira eisodwn twn dianysmatwn
         [~, repre] = BSAS(X,theta,q,order);
         k = size(repre,2); % plh8os twn klasewn poy proekypsan
         list_m(k) = list_m(k)+1;
