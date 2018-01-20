@@ -4,6 +4,7 @@ function [W,SuccessRate] = fold(id)
   Y = data(:,3);
   Y(Y==0) = -1;
   X = data(:,4:end);
+  X(:,end+1) = ones(length(Y),1);
   clear data;
   W = inv(X'*X)*X'*Y; %least squares' optimal weights vector of hyperplane
 
@@ -11,6 +12,7 @@ function [W,SuccessRate] = fold(id)
   Y = data(:,3);
   Y(Y==0) = -1;
   X = data(:,4:end);
+  X(:,end+1) = ones(length(Y),1);
   Guess = W'*X';
   Guess(Guess>0)=1;
   Guess(Guess<0)=-1;
