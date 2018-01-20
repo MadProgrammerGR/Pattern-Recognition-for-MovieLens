@@ -10,16 +10,16 @@ km_repre
 
 order = randperm(N);
 %parallelcoords(X(:,order(1:100))','Group',km_bel(order(1:100)),'Labels',headers(2:end));
-myParallelCoords(X(:,order(1:100))',km_bel(order(1:100)),headers(2:end));
+myParallelcoords(X(:,order)',km_bel(order),headers(2:end));
 
 dista = zeros(N,N);
 for i=1:N
     for j=i+1:N
-        dista(i,j)=distan(X(:,i),X(:,j));
+        dista(i,j)=sqrt(sum((X(:,i)-X(:,j)).^2));
         dista(j,i)=dista(i,j);
     endfor
 endfor
 % oi grammes tou bel einai me th seira oi omadopoihseis pou proekypsan
-[bel,thres]=agglom(dista,1); % 1 for single link, 2 for complete link
-Z=linkage(X','single','euclidean'); % aplou desmou
+[bel,thres]=agglom(dista,2); % 1 for single link, 2 for complete link
+Z=linkage(X','complete','euclidean'); % aplou desmou
 figure, dendrogram(Z);
