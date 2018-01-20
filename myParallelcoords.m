@@ -14,24 +14,14 @@ function myParallelcoords(X, Group, Labels)
     error("Number of observation rows must match number of Labels"); return;
   endif
   
-  figure;
-  M = mean(X); %ana sthlh
-  [~,index] = sort(M,"descend");
-  [g,ig] = sort(Group); 
-  g = unique(g);
+  figure; 
+  g = unique(Group);
   pale=['r'; 'g'; 'b'; 'y'; 'm'; 'c';'k'];
-  prevC='_';
-  ps = [];
   for i = 1:N
-    color = pale(find(g==Group(ig(i))));
-    p = plot(X(ig(i),index),'Color',color);
+    color = pale(find(g==Group(i)));
+    plot(X(i,:),'Color',color);
     hold on;
-    if prevC != color
-      ps = [ps p];
-    endif
-    prevC = color;
   endfor
-  legend(ps,g);
   set(gca,'xtick',1:L);
-  set(gca,'xticklabel',Labels(index));
+  set(gca,'xticklabel',Labels);
 endfunction
