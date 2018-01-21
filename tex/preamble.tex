@@ -1,0 +1,49 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[table,hyperref]{xcolor}
+
+%%%% Fonts
+\usepackage{amsfonts}
+\usepackage{fontspec}
+%\usepackage{libertine}
+%\setmainfont[
+%    Extension = .ttf,
+%    BoldFont = *-Bold,
+%    ItalicFont = *-Oblique,
+%    BoldItalicFont = *-BoldOblique,
+%]{DejaVuSans}
+%\newfontfamily{\greekfont}{DejaVuSans}
+%\newfontfamily{\greekfontsf}{DejaVuSans}
+
+\setmainfont{GFSArtemisia}[%
+    Path = ./fonts/GFS_ARTEMISIA/ ,
+    Extension = .otf,
+    BoldFont = *Bold,
+    ItalicFont = *It,
+    BoldItalicFont = *BoldIt,
+]
+
+%%%% Greek Language
+\usepackage[Greek,Latin]{ucharclasses}
+\usepackage{polyglossia}
+\setmainlanguage{greek}
+\setotherlanguages{english}
+\PolyglossiaSetup{greek}{%
+	indentfirst=true,
+	script=Greek,
+	fontsetup=true
+}
+\PolyglossiaSetup{english}{indentfirst=true}
+
+%%%% Page Setup
+\usepackage[pdfencoding=unicode,psdextra,pdfusetitle]{hyperref}
+\hypersetup{%
+	unicode=true,
+	breaklinks=true,
+	colorlinks,
+	linkcolor={blue!25!black},
+	citecolor={blue!25!black},
+	urlcolor={red!40!green}
+}
+
+\usepackage{pgfplots}
+%%%%%%
